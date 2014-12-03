@@ -32,10 +32,10 @@ data_diff=[t1d,t2d]
 test=[tests,testd]
 
 #magic EXP2
-plus0=[[0],False]
-plus1=[[1],False]
-plus2=[[2],False]
-plus3=[[3],False]
+plus0=[[0,None],False]
+plus1=[[1,None],False]
+plus2=[[2,None],False]
+plus3=[[3,None],False]
 
 data_same_plus=[plus0,plus1,t1s,plus2,plus3,t2s]
 
