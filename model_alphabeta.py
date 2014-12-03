@@ -12,9 +12,9 @@ h_space=[]
 
 #parameters
 initialized=False
-alpha=0.45
-beta=0.45
-gamma=0.1
+alpha=0.3#0.33
+beta=0.3#0.01
+gamma=0.9
 epsilon=0.01#1e-1
 hypotheses={}
 norms=[0,0,0]
@@ -41,15 +41,26 @@ def p_data_data_SLOW(d_new,d_old):#inefficient, could take p_hs out of the loop.
 	return p
 
 
-def p_data_data(d_new,d_old):#optimized, but CHECK!
+# def p_data_data(d_new,d_old):#optimized, but CHECK! WRONG! can't multiply there.
+# 	p=0
+# 	for t in t_space:
+# 		for h in h_space:
+# 			p+=p_data_hypothesis(d_new,h)*p_data_hypothesis(d_old,h)*\
+# 				p_hypothesis_theory(h,t)
+# 		p*=p_theory(t)
+# 	p/=p_data(d_old)
+# 	return p
+
+def p_data_data(d_new,d_old):#optimized, but CHECK! --slightly inneficient calling p_theory too much
 	p=0
-	for t in t_space:
-		for h in h_space:
-			p+=p_data_hypothesis(d_new,h)*p_data_hypothesis(d_old,h)*\
-				p_hypothesis_theory(h,t)
-		p*=p_theory(t)
+	for h in h_space:
+		this_factor=p_data_hypothesis(d_new,h)*p_data_hypothesis(d_old,h)
+		for t in t_space:
+			p+=p_hypothesis_theory(h,t)*p_theory(t)*this_factor
 	p/=p_data(d_old)
 	return p
+
+
 
 def p_data_data_binormalized(d_new,d_old): #INEFFICENT
 	d_plus=[[],0]
@@ -67,11 +78,11 @@ def p_data_data_binormalized(d_new,d_old): #INEFFICENT
 def p_data(d):
 	p=0
 	for t in t_space:
+		this_factor=p_theory(t)
 		for h in h_space:
 			if h[0]!=t: #efficency, x2
 				continue
-			p+=p_data_hypothesis(d,h)*p_hypothesis_theory(h,t)
-		p*=p_theory(t)
+			p+=p_data_hypothesis(d,h)*p_hypothesis_theory(h,t)*this_factor
 	return p 
 
 def choose(p1,p2):
