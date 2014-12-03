@@ -1,6 +1,7 @@
-import model2 as model
+import model_alphabeta as model
 import data
 
+model.initialize()
 
 upsamesame=model.p_data_data([data.tests], data.data_same)
 updiffsame=model.p_data_data([data.testd], data.data_same)

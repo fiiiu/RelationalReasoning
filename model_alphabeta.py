@@ -4,22 +4,19 @@ import numpy as np
 from copy import deepcopy
 
 gain=1.8
-n_shapes=3
+n_shapes=6
 shapes=range(n_shapes)
 t_space=[0,1,2]
-n_comb2=int(scipy.misc.comb(n_shapes,2))
-#h_space=range(2**n_shapes+n_shapes+n_comb2)
+#n_comb2=int(scipy.misc.comb(n_shapes,2))
 h_space=[]
 
 #parameters
 initialized=False
-alpha=0.25
-beta=0.25
-gamma=0.2
-#individual_bias=0.5	#0.999#0.999#0.99997
+alpha=0.45
+beta=0.45
+gamma=0.1
 epsilon=0.01#1e-1
 hypotheses={}
-#shape_pairs=[pair for pair in itertools.combinations(shapes,2)]
 norms=[0,0,0]
 
 
@@ -35,7 +32,7 @@ def print_normalized(f, space):
 
 
 ###INFERENCE
-def p_data_data(d_new,d_old):#inefficient, could take p_hs out of the loop..
+def p_data_data_SLOW(d_new,d_old):#inefficient, could take p_hs out of the loop..
 	p=0
 	for t in t_space:
 		for h in h_space:
@@ -43,6 +40,16 @@ def p_data_data(d_new,d_old):#inefficient, could take p_hs out of the loop..
 				p_hypothesis_theory(h,t)*p_theory(t)
 	return p
 
+
+def p_data_data(d_new,d_old):#optimized, but CHECK!
+	p=0
+	for t in t_space:
+		for h in h_space:
+			p+=p_data_hypothesis(d_new,h)*p_data_hypothesis(d_old,h)*\
+				p_hypothesis_theory(h,t)
+		p*=p_theory(t)
+	p/=p_data(d_old)
+	return p
 
 def p_data_data_binormalized(d_new,d_old): #INEFFICENT
 	d_plus=[[],0]
@@ -61,6 +68,8 @@ def p_data(d):
 	p=0
 	for t in t_space:
 		for h in h_space:
+			if h[0]!=t: #efficency, x2
+				continue
 			p+=p_data_hypothesis(d,h)*p_hypothesis_theory(h,t)
 		p*=p_theory(t)
 	return p 
@@ -88,9 +97,10 @@ def p_theory(t):
 
 
 def unnormalized_p_hypothesis_theory(h,t):
-	if h not in h_space:
-		print 'invalid h!'
-		return 
+	#removing check for efficiency
+	#if h not in h_space:
+	#	print 'invalid h!'
+	#	return 
 
 	h0,h1,h2=h
 	if t==h0:
@@ -100,9 +110,10 @@ def unnormalized_p_hypothesis_theory(h,t):
 
 
 def p_hypothesis_theory(h,t):
-	if h not in h_space:
-		print 'invalid h!'
-		return 
+	#removing this check for efficiency, 10x gain
+	# if h not in h_space:
+	# 	print 'invalid h!'
+	# 	return 
 
 	h0,h1,h2=h
 	if t==h0:
@@ -157,27 +168,28 @@ def build_hypotheses():
 
 
 def p_singledata_hypothesis(d,h):
-	if h not in h_space:
-		print 'invalid h'
-		return
+	#removing this check for efficiency, 5x gain
+	# if h not in h_space:
+	# 	print 'invalid h'
+	# 	return
 
-	h0,h1,h2=h
+	#h0,h1,h2=h
 
-	if h0==0: #single shape
+	if h[0]==0: #single shape
 		if (d[1] and (d[0][0] in hypotheses[h] or d[0][1] in hypotheses[h])) or\
 		   (not d[1] and (d[0][0] not in hypotheses[h] and d[0][1] not in hypotheses[h])):
 			return 1.
 		else:
 			return epsilon
 
-	elif h0==1: #same double shape
+	elif h[0]==1: #same double shape
 		if (d[1] and d[0][0]==d[0][1] and d[0][0] in hypotheses[h]) or\
 		   (not d[1] and ((d[0][0]!=d[0][1]) or d[0][0] not in hypotheses[h])):
 		    return 1.
 		else:
 			return epsilon
 
-	elif h0==2: #diff double shape
+	elif h[0]==2: #diff double shape
 		if (d[1] and d[0] in hypotheses[h]) or\
 		   (not d[1] and d[0] not in hypotheses[h]):
 			return 1.
