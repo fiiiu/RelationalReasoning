@@ -8,9 +8,11 @@ pcorr_2s=0.78
 pcorr_1d=0.44
 pcorr_2d=0.5
 
+manual=True
+auto=False
 
 def run_model():
-	#print 'running with alpha=beta={0}, gamma={1}, gain={2}'.format(m.alpha,m.gamma,m.gain)
+	print 'running with alpha={0}, beta={1}, gamma={2}, gain={3}'.format(m.alpha,m.beta,m.gamma,m.gain)
 	m.initialize()
 
 	upsamesame=m.p_data_data([data.tests], data.data_same)
@@ -33,32 +35,36 @@ def run_model():
 	return m.choose(psamesame,pdiffsame), m.choose(pdiffdiff,psamediff),\
 		m.choose(psameplussame,pdiffplussame), m.choose(pdiffplusdiff,psameplusdiff)
 
+
 #manual minimization
-# m.epsilon=0.05
-# alphas=[0.1,0.3]
-# gammas=[0.5,0.9]
-# gains=[0.7,1,1.8]
+if manual:
+	m.epsilon=0.0
+	alphas=[0.05,0.2,0.33]
+	betas=[0.05,0.2,0.33]
+	gammas=[0.1,0.5,0.9]
+	gains=[1]#[0.7,1,1.8]
 
-# mindist=100
-# stars=(0,0,0)
-# for gain in gains:
-# 	m.gain=gain
-# 	for alpha in alphas:
-# 		m.alpha=alpha
-# 		m.beta=alpha
-# 		for gamma in gammas:
-# 			m.gamma=gamma
+	mindist=100
+	stars=(0,0,0)
+	for gain in gains:
+		m.gain=gain
+		for alpha in alphas:
+			m.alpha=alpha
+			for beta in betas:
+				m.beta=beta
+				for gamma in gammas:
+					m.gamma=gamma
 
-# 			pc1s,pc1d,pc2s,pc2d =run_model()
-# 			dist=(pc1s-pcorr_1s)**2+(pc1d-pcorr_1d)**2+(pc2s-pcorr_2s)**2+(pc2d-pcorr_2d)**2
-# 			if dist<mindist:
-# 				stars=(gain,alpha,gamma)
-# 				pstars=pc1s,pc1d,pc2s,pc2d
-# 				mindist=dist
+					pc1s,pc1d,pc2s,pc2d =run_model()
+					dist=(pc1s-pcorr_1s)**2+(pc1d-pcorr_1d)**2+(pc2s-pcorr_2s)**2+(pc2d-pcorr_2d)**2
+					if dist<mindist:
+						stars=(gain,alpha,beta,gamma)
+						pstars=pc1s,pc1d,pc2s,pc2d
+						mindist=dist
 
-# print stars
-# print pstars
-# print mindist
+	print stars
+	print pstars
+	print mindist
 
 def model_dist((alpha)):#((gain,gamma,alpha,epsilon)):
 	m.gain=1#gain
@@ -71,10 +77,11 @@ def model_dist((alpha)):#((gain,gamma,alpha,epsilon)):
 	dist=(pc1s-pcorr_1s)**2+(pc1d-pcorr_1d)**2+(pc2s-pcorr_2s)**2+(pc2d-pcorr_2d)**2
 	return dist		
 
-import scipy
-x0=np.array([1,0.9,0.3,0.01])
-x0=np.array([0.3])
+if auto:
+	import scipy
+	x0=np.array([1,0.9,0.3,0.01])
+	x0=np.array([0.3])
 
-res=scipy.optimize.minimize(model_dist,x0)
+	res=scipy.optimize.minimize(model_dist,x0)
 
-print res
+	print res

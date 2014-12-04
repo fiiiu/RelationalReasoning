@@ -14,7 +14,7 @@ h_space=[]
 initialized=False
 alpha=0.3#0.33
 beta=0.3#0.01
-gamma=0.9
+gamma=0.5
 epsilon=0.01#1e-1
 hypotheses={}
 norms=[0,0,0]
@@ -85,8 +85,17 @@ def p_data(d):
 			p+=p_data_hypothesis(d,h)*p_hypothesis_theory(h,t)*this_factor
 	return p 
 
-def choose(p1,p2):
-	return 1./(1+np.exp(-gain*(p1-p2)))
+# def choose(p1,p2):
+# 	return 1./(1+np.exp(-gain*(p1-p2)))
+
+def choose(p1,p2,sigmoid=False):
+	p=p1/(p1+p2)
+	if not sigmoid:
+		return p
+	else:
+		x=p/(1-p)
+		return 1./(1+np.exp(-gain*x))
+
 
 def p_theory_data(t,d):
 	p=0
