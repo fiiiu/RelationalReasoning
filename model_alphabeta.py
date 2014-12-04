@@ -93,8 +93,8 @@ def choose(p1,p2,sigmoid=False):
 	if not sigmoid:
 		return p
 	else:
-		x=p/(1-p)
-		return 1./(1+np.exp(-gain*x))
+		x=np.log(p/(1-p))
+		return 1./(1+np.exp(-gain*np.log(x)))
 
 
 def p_theory_data(t,d):

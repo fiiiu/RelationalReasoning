@@ -38,27 +38,29 @@ def run_model():
 
 #manual minimization
 if manual:
-	m.epsilon=0.0
-	alphas=[0.05,0.2,0.33]
-	betas=[0.05,0.2,0.33]
-	gammas=[0.1,0.5,0.9]
-	gains=[1]#[0.7,1,1.8]
+	epsilons=[0.001, 0.01, 0.05, 0.1, 0.25]
+	alphas=[0.01, 0.05, 0.2, 0.33, 0.5, 0.9]
+	betas=[[0.01, 0.05, 0.2, 0.33, 0.5, 0.9]
+	gammas=[0.01, 0.1, 0.5, 0.9, 0.99]
+	#gains=[1]#[0.7,1,1.8]
 
 	mindist=100
 	stars=(0,0,0)
-	for gain in gains:
-		m.gain=gain
+	pstars=(0,0,0,0)
+	for epsilon in epsilons:
+		m.epsilon=epsilon
 		for alpha in alphas:
 			m.alpha=alpha
 			for beta in betas:
 				m.beta=beta
+				if alpha+beta>1:
+					continue
 				for gamma in gammas:
 					m.gamma=gamma
-
 					pc1s,pc1d,pc2s,pc2d =run_model()
 					dist=(pc1s-pcorr_1s)**2+(pc1d-pcorr_1d)**2+(pc2s-pcorr_2s)**2+(pc2d-pcorr_2d)**2
 					if dist<mindist:
-						stars=(gain,alpha,beta,gamma)
+						stars=(epsilon,alpha,beta,gamma)
 						pstars=pc1s,pc1d,pc2s,pc2d
 						mindist=dist
 
