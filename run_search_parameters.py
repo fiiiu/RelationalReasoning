@@ -3,16 +3,18 @@ import data
 import numpy as np
 import scipy.optimize
 
-pcorr_1s=0.46
-pcorr_2s=0.78
-pcorr_1d=0.44
-pcorr_2d=0.5
+pcorr_1s=data.truepsamesameE1 #0.46
+pcorr_2s=data.truepsamesameE2 #0.78
+pcorr_1d=data.truepdiffdiffE1 #0.44
+pcorr_2d=data.truepdiffdiffE2 #0.5
 
 manual=True
 auto=False
+test=True
 
 def run_model():
-	print 'running with alpha={0}, beta={1}, gamma={2}, gain={3}'.format(m.alpha,m.beta,m.gamma,m.gain)
+	#print 'running with alpha={0}, beta={1}, gamma={2}, gain={3}'.format(m.alpha,m.beta,m.gamma,m.gain)
+	print 'running with alpha={0}, beta={1}, gamma={2}, epsilon={3}'.format(m.alpha,m.beta,m.gamma,m.epsilon)
 	m.initialize()
 
 	upsamesame=m.p_data_data([data.tests], data.data_same)
@@ -43,6 +45,12 @@ if manual:
 	betas=[0.01, 0.05, 0.2, 0.33, 0.5, 0.9]
 	gammas=[0.01, 0.1, 0.5, 0.9, 0.99]
 	#gains=[1]#[0.7,1,1.8]
+	if test:
+		epsilons=[0.01]
+		alphas=[0.05]
+		betas=[0.05]
+		gammas=[0.1]
+
 
 	mindist=100
 	stars=(0,0,0)

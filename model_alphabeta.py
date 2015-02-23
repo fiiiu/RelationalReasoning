@@ -3,7 +3,7 @@ import itertools
 import numpy as np
 from copy import deepcopy
 
-gain=1.8
+#gain=1.8
 n_shapes=6
 shapes=range(n_shapes)
 t_space=[0,1,2]
@@ -14,7 +14,7 @@ h_space=[]
 initialized=False
 alpha=0.3#0.33
 beta=0.3#0.01
-gamma=0.5
+gamma=0.9
 epsilon=0.01#1e-1
 hypotheses={}
 norms=[0,0,0]

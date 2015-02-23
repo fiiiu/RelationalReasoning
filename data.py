@@ -1,4 +1,13 @@
 
+
+truepsamesameE1=0.46428571
+truepdiffdiffE1=0.42857143
+
+truepsamesameE2=0.78571429
+truepdiffdiffE2=0.5
+
+
+
 t1s=[(0,0),True]
 t2s=[(1,2),False]
 

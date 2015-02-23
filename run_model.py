@@ -36,6 +36,8 @@ print "\np correct choice SAME={0}, p correct choice DIFF={1}"\
 
 #now the magic
 
+print "\nEXPERIMENT 2:\n"
+
 psameplussame=model.p_data_data_binormalized([data.tests],data.data_same_plus)
 pdiffplussame=model.p_data_data_binormalized([data.testd],data.data_same_plus)
 
