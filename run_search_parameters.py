@@ -3,6 +3,8 @@ import data
 import numpy as np
 import scipy.optimize
 
+m.initialize()
+
 pcorr_1s=data.truepsamesameE1 #0.46
 pcorr_2s=data.truepsamesameE2 #0.78
 pcorr_1d=data.truepdiffdiffE1 #0.44
@@ -12,10 +14,10 @@ manual=True
 auto=False
 test=True
 
-def run_model():
+def run_model(a,b,g,e):
 	#print 'running with alpha={0}, beta={1}, gamma={2}, gain={3}'.format(m.alpha,m.beta,m.gamma,m.gain)
+	m.change_parameters(a,b,g,e)		
 	print 'running with alpha={0}, beta={1}, gamma={2}, epsilon={3}'.format(m.alpha,m.beta,m.gamma,m.epsilon)
-	m.initialize()
 
 	upsamesame=m.p_data_data([data.tests], data.data_same)
 	updiffsame=m.p_data_data([data.testd], data.data_same)
@@ -49,32 +51,29 @@ if manual:
 		epsilons=[0.01]
 		alphas=[0.05]
 		betas=[0.05]
-		gammas=[0.1]
-
+		gammas=[0.1, 0.5, 0.9]
 
 	mindist=100
 	stars=(0,0,0)
 	pstars=(0,0,0,0)
-	for epsilon in epsilons:
-		m.epsilon=epsilon
-		for alpha in alphas:
-			m.alpha=alpha
-			for beta in betas:
-				m.beta=beta
-				if alpha+beta>1:
+	for e in epsilons:
+		for a in alphas:
+			for b in betas:
+				if a+b>1:
 					continue
-				for gamma in gammas:
-					m.gamma=gamma
-					pc1s,pc1d,pc2s,pc2d =run_model()
+				for g in gammas:
+					pc1s,pc1d,pc2s,pc2d =run_model(a,b,g,e)
 					dist=(pc1s-pcorr_1s)**2+(pc1d-pcorr_1d)**2+(pc2s-pcorr_2s)**2+(pc2d-pcorr_2d)**2
 					if dist<mindist:
-						stars=(epsilon,alpha,beta,gamma)
+						stars=(a,b,g,e)
 						pstars=pc1s,pc1d,pc2s,pc2d
 						mindist=dist
 
 	print stars
 	print pstars
 	print mindist
+
+
 
 def model_dist((alpha)):#((gain,gamma,alpha,epsilon)):
 	m.gain=1#gain

@@ -11,7 +11,7 @@ t_space=[0,1,2]
 h_space=[]
 
 #parameters
-initialized=False
+hypotheses_built=False
 alpha=0.3#0.33
 beta=0.3#0.01
 gamma=0.9
@@ -19,6 +19,19 @@ epsilon=0.01#1e-1
 hypotheses={}
 norms=[0,0,0]
 
+
+###OPERATIONS
+def initialize():
+	build_hypotheses()
+
+def change_parameters(a,b,g,e):
+	global alpha, beta, gamma, epsilon
+	alpha=a
+	beta=b
+	gamma=g
+	epsilon=e
+	compute_htnormalizers()
+	
 
 ###TOOLS
 def print_normalized(f, space):
@@ -149,11 +162,6 @@ def p_data_hypothesis(dlist,h):
 	return p
 
 
-def initialize():
-	build_hypotheses()
-	compute_htnormalizers()
-	initialized=True
-
 
 def compute_htnormalizers():
 	for t in t_space:
@@ -185,6 +193,7 @@ def build_hypotheses():
 			hypotheses[(h0,h1,h2)]=these_pairs
 			h_space.append((h0,h1,h2))
 			h2+=1
+	
 
 
 def p_singledata_hypothesis(d,h):
