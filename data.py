@@ -34,9 +34,11 @@ t2d=[(0,0),False]
 #small world
 tests=[(3,3),True]
 testd=[(4,5),True]
+#testd=[(0,5),True]
 
 testsnorm=[(3,3),False]
 testdnorm=[(4,5),False]
+#testdnorm=[(0,5),False]
 
 data_same=[t1s,t2s]
 data_diff=[t1d,t2d]

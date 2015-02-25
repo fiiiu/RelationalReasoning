@@ -7,7 +7,7 @@ from copy import deepcopy
 n_shapes=6
 shapes=range(n_shapes)
 t_space=[0,1,2]
-#n_comb2=int(scipy.misc.comb(n_shapes,2))
+n_comb2=int(scipy.misc.comb(n_shapes,2))
 h_space=[]
 
 #parameters
@@ -24,6 +24,7 @@ norms=[0,0,0]
 def initialize():
 	build_hypotheses()
 
+#CAREFULLL I NEED TO RUN THIS BECAUSE OF THE NORMALIZERS
 def change_parameters(a,b,g,e):
 	global alpha, beta, gamma, epsilon
 	alpha=a
@@ -187,7 +188,8 @@ def build_hypotheses():
 
 	h0=2 #diff double shape
 	different_pairs=[pair for pair in itertools.combinations(shapes, 2)]
-	for h1 in range(1, n_shapes+1):
+	#for h1 in range(1, n_shapes+1):
+	for h1 in range(1, n_comb2+1):
 		h2=0
 		for these_pairs in itertools.combinations(different_pairs,h1):
 			hypotheses[(h0,h1,h2)]=these_pairs
