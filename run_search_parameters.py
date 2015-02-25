@@ -10,9 +10,9 @@ pcorr_2s=data.truepsamesameE2 #0.78
 pcorr_1d=data.truepdiffdiffE1 #0.44
 pcorr_2d=data.truepdiffdiffE2 #0.5
 
-manual=True
-auto=False
-test=True
+manual=False#True
+auto=True#False
+test=False#True
 
 def run_model(a,b,g,e):
 	#print 'running with alpha={0}, beta={1}, gamma={2}, gain={3}'.format(m.alpha,m.beta,m.gamma,m.gain)
@@ -73,24 +73,25 @@ if manual:
 	print pstars
 	print mindist
 
+def constr((alpha, beta, gamma, epsilon)):
+	return 1-alpha-beta
 
 
-def model_dist((alpha)):#((gain,gamma,alpha,epsilon)):
-	m.gain=1#gain
-	m.gamma=0.9#gamma
-	m.alpha=alpha
-	m.beta=alpha
-	m.epsilon=0.01#epsilon
-	#m.initialize()
-	pc1s,pc1d,pc2s,pc2d =run_model()
+def model_dist((alpha, beta, gamma, epsilon)):#((gain,gamma,alpha,epsilon)):
+	pc1s,pc1d,pc2s,pc2d =run_model(alpha,beta,gamma,epsilon)
 	dist=(pc1s-pcorr_1s)**2+(pc1d-pcorr_1d)**2+(pc2s-pcorr_2s)**2+(pc2d-pcorr_2d)**2
 	return dist		
 
 if auto:
 	import scipy
-	x0=np.array([1,0.9,0.3,0.01])
-	x0=np.array([0.3])
+	#x0=np.array([1,0.9,0.3,0.01])
+	x0=np.array([0.33, 0.33, 0.5, 0.05])
 
-	res=scipy.optimize.minimize(model_dist,x0)
+	res=scipy.optimize.minimize(model_dist,x0,bounds=[(0,1),(0,1),(0,1),(0,1)], constraints={'type': 'ineq', 'fun': constr})
+	#res=scipy.optimize.minimize(lambda (x,y): (x-0.22)**2+(y-0.12)**2+0.17*x*y, x0, bounds=[(0,0.5),(0,0.5)])
 
 	print res
+	
+	print res.x
+	print run_model(res.x[0],res.x[1],res.x[2],res.x[3])
+

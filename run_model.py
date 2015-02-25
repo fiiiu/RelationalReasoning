@@ -2,6 +2,7 @@ import model_alphabeta as model
 import data
 
 model.initialize()
+model.change_parameters(0.28711,1.4863e-08,0.9,0.01)
 
 upsamesame=model.p_data_data([data.tests], data.data_same)
 updiffsame=model.p_data_data([data.testd], data.data_same)
