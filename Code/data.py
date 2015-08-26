@@ -1,13 +1,12 @@
 
-
-truepsamesameE1=0.46428571
-truepdiffdiffE1=0.42857143
-
-truepsamesameE2=0.78571429
-truepdiffdiffE2=0.5
-
+#EXPERIMENTAL DATA
+pe_1s=0.46
+pe_2s=0.78
+pe_1d=0.44
+pe_2d=0.5
 
 
+#SIMULATED DATA
 t1s=[(0,0),True]
 t2s=[(1,2),False]
 
@@ -34,11 +33,9 @@ t2d=[(0,0),False]
 #small world
 tests=[(3,3),True]
 testd=[(4,5),True]
-#testd=[(0,5),True]
 
 testsnorm=[(3,3),False]
 testdnorm=[(4,5),False]
-#testdnorm=[(0,5),False]
 
 data_same=[t1s,t2s]
 data_diff=[t1d,t2d]

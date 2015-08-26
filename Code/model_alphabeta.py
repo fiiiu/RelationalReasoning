@@ -3,36 +3,22 @@ import itertools
 import numpy as np
 from copy import deepcopy
 
-#gain=1.8
+gain=1.8
 n_shapes=6
 shapes=range(n_shapes)
 t_space=[0,1,2]
-n_comb2=int(scipy.misc.comb(n_shapes,2))
+#n_comb2=int(scipy.misc.comb(n_shapes,2))
 h_space=[]
 
 #parameters
-hypotheses_built=False
+initialized=False
 alpha=0.3#0.33
 beta=0.3#0.01
-gamma=0.9
+gamma=0.5
 epsilon=0.01#1e-1
 hypotheses={}
 norms=[0,0,0]
 
-
-###OPERATIONS
-def initialize():
-	build_hypotheses()
-
-#CAREFULLL I NEED TO RUN THIS BECAUSE OF THE NORMALIZERS
-def change_parameters(a,b,g,e):
-	global alpha, beta, gamma, epsilon
-	alpha=a
-	beta=b
-	gamma=g
-	epsilon=e
-	compute_htnormalizers()
-	
 
 ###TOOLS
 def print_normalized(f, space):
@@ -163,6 +149,11 @@ def p_data_hypothesis(dlist,h):
 	return p
 
 
+def initialize():
+	build_hypotheses()
+	compute_htnormalizers()
+	initialized=True
+
 
 def compute_htnormalizers():
 	for t in t_space:
@@ -188,14 +179,12 @@ def build_hypotheses():
 
 	h0=2 #diff double shape
 	different_pairs=[pair for pair in itertools.combinations(shapes, 2)]
-	#for h1 in range(1, n_shapes+1):
-	for h1 in range(1, n_comb2+1):
+	for h1 in range(1, n_shapes+1):
 		h2=0
 		for these_pairs in itertools.combinations(different_pairs,h1):
 			hypotheses[(h0,h1,h2)]=these_pairs
 			h_space.append((h0,h1,h2))
 			h2+=1
-	
 
 
 def p_singledata_hypothesis(d,h):
