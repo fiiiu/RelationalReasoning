@@ -5,13 +5,13 @@ from matplotlib import cm
 plt.rc('text', usetex=True)
 import seaborn as sns
 
-distances=np.load('/Users/mac/Projects/RelationalReasoning/Output/distancesX.npy')
+distances=np.load('/Users/alejo/Projects/RelationalReasoning/Code/distances.npy')
 
 
 
 #alphas=np.array([0.01, 0.1, 0.33, 0.5, 0.66, 0.9, 0.99])
 #betas=np.array([0.01, 0.1, 0.33, 0.5, 0.66, 0.9, 0.99])
-ngrid=11
+ngrid=7
 alphas=np.linspace(0,1,ngrid)
 betas=np.linspace(0,1,ngrid)
 
