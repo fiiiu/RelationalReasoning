@@ -6,15 +6,15 @@ from copy import deepcopy
 gain=1.8
 n_shapes=6
 shapes=range(n_shapes)
-t_space=[0,1,2,3]
+t_space=[0,1,2]
 #n_comb2=int(scipy.misc.comb(n_shapes,2))
 h_space=[]
 
 #parameters
 initialized=False
 alpha=0.3#0.33
-beta=0.3#0.01
-delta=0.1
+#beta=0.3#0.01
+#delta=0.1
 #gamma=1.0 #FIXED
 epsilon=0.1 #FIXED
 hypotheses={}
@@ -104,13 +104,9 @@ def build_hypotheses():
 ###BLOCKS
 def p_theory(t):
 	if t==0:
-		return 1-alpha-beta-delta
-	elif t==1:
+		return 1-2*alpha#-beta-delta
+	else:
 		return alpha
-	elif t==2:
-		return beta
-	elif t==3:
-		return delta
 
 
 def unnormalized_p_hypothesis_theory(h,t):
@@ -120,7 +116,7 @@ def unnormalized_p_hypothesis_theory(h,t):
 	#	return 
 
 	h0,h1,h2=h
-	if t==h0 or (t==3 and h0 in [1,2]):
+	if t==h0:
 		return 1.
 	else:
 		return 0
@@ -134,7 +130,7 @@ def p_hypothesis_theory(h,t):
 	# 	return 
 
 	h0,h1,h2=h
-	if t==h0 or (t==3 and h0 in [1,2]):
+	if t==h0:# or (t==3 and h0 in [1,2]):
 		return 1./norms[t]
 	else:
 		return 0

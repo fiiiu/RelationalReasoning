@@ -149,9 +149,9 @@ we find that with a less extreme choice of parameters as $(\alpha,\beta,\gamma,\
 Running an automatic optimization over the range of the parameters taking into account the probability constraints we reach similar values, namely: $(\alpha,\beta,\gamma,\epsilon)=(0.29,0,1,0.15)$, with correct choice probabilities of $(0.56, 0.56, 0.73, 0.53)$. This again shows the main effect and is slightly closer in value to the experimental data. 
  
  
-\section*{Model Variations}
-Given the results above, and their stability against changes in $\epsilon$ and $\gamma$, we introduce a variation of the model where these two parameters are fixed to $\epsilon=0.1$ and $\gamma=1$. This amount to a moderate amount of noise and no penalization for hypotheses with big numbers of block combinations. Further, we include a new possibility at the level of theories that describes the possibility that any two blocks activate the machine (no matter whether they are similar or different). With this, we have the following changes in the model description.
- 
+\section*{Model Variations 1: Another Theory}
+Given the results above, and their stability against changes in $\epsilon$ and $\gamma$, we introduce a variation of the model where these two parameters are fixed to $\epsilon=0.1$ and $\gamma=1$. This amounts to a moderate amount of noise and no penalization for hypotheses with big numbers of block combinations. Further, we include a new alternative at the level of theories that describes the possibility that any two blocks activate the machine (no matter whether they are similar or different). With this, we have the following changes in the model description.
+
 \subsection*{The \emph{theory} level}
 The new theory prior is as follows:
 \begin{equation}
@@ -176,7 +176,6 @@ This equation states the fact that the new `any two blocks' ($t=3$) theory suppo
  
 Since we already had a description of all kinds of pairs of blocks at the hypothesis level (split in similar and different), the rest of the model components remain unchanged. 
  
-\section*{Further Results}
 \subsection*{Model Optimization}
 We ran a manual optimization over the grid:
 \begin{equation}
@@ -199,6 +198,21 @@ Fixing $\delta=0$, we show how well the model fits the data for different values
 \end{figure}
  
  
+ 
+\section*{Model Variations 2: $\alpha=\beta$}
+In this section we explore a further variation of the model, returning to the original with no $\delta$ (or, equivalently, $\delta=0$), and setting $\alpha=\beta$, which leaves us with a single parameter (the other parameters are fixed to $\gamma=1$ and $\epsilon=0.1$). The model equations are the same as in the original case, keeping in mind the constraint $\alpha=\beta$. In figure~\ref{fig:GoF1} we show the goodness of fit computed as 1 minus the squared distance between the vectors of choice probabilities, model and data, as a function of $\alpha$.
+\begin{figure}[ht]
+\centering
+\includegraphics[width=12cm]{Figures/GoF_alpha.png}
+\caption{Goodness of fit for the single parameter model.}
+\label{fig:GoF1}
+\end{figure} 
+
+We performed numerical optimization over this parameter, and found that the model's predictions most closely match the experimental data at $\alpha=\beta=0.1798$, yielding correct probabilities of:  $(0.53, 0.60, 0.72, 0.73)$. Comparing with the data, we see that the characteristic pattern is lost. We note however that this is not due to fixing $\alpha=\beta$ but only to parameter optimization. We can recover the pattern for different values of the parameter: setting $\alpha=\beta=0.33$ yields for instance $(0.65, 0.62, 0.77, 0.71)$, which recovers the pattern in the experiment albeit with a bigger overall discrepancy in the actual numerical values. 
+
+
+
+
  
 \end{document}
 

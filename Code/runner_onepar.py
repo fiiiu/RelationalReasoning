@@ -1,20 +1,12 @@
 
-#import model_delta as m
+import model_onepar as m
 import data
+import time
 
-#def select_model(model):
+m.initialize()
 
-
-def run(model, alpha=None, beta=None, delta=None):
-	m=__import__(model)
+def run(alpha):
 	m.alpha=alpha
-	if beta is not None:
-		m.beta=beta
-	if delta is not None:
-		m.delta=delta
-	print 'running with alpha={0}, beta={1}, delta={2}'.format(alpha,beta,delta)
-	m.initialize()
-
 	upsamesame=m.p_data_data([data.tests], data.data_same)
 	updiffsame=m.p_data_data([data.testd], data.data_same)
 	normsamesame=m.p_data_data([data.testsnorm], data.data_same)

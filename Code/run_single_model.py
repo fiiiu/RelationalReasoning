@@ -1,11 +1,12 @@
 #import model_alphabeta as model
-import model_delta as model
+#import model_delta as model
+import model_onepar as model
 import data
 
 
-model.alpha=0.1
-model.beta=0.1
-model.delta=0.1
+model.alpha=0.2
+#model.beta=0.1
+#model.delta=0.1
 #model.epsilon=0.25
 #model.gamma=0.99
 model.initialize()
@@ -31,15 +32,17 @@ psamediff=upsamediff/(upsamediff+normsamediff)
 pdiffdiff=updiffdiff/(updiffdiff+normdiffdiff)
 
 
-print "SAME:\n p same={0}, p diff={1}, ps/pd={2}".format(psamesame,pdiffsame,psamesame/pdiffsame)
-print "DIFF:\n p same={0}, p diff={1}, pd/ps={2}".format(psamediff,pdiffdiff,pdiffdiff/psamediff)
+#Detailed print
+#print "SAME:\n p same={0}, p diff={1}, ps/pd={2}".format(psamesame,pdiffsame,psamesame/pdiffsame)
+#print "DIFF:\n p same={0}, p diff={1}, pd/ps={2}".format(psamediff,pdiffdiff,pdiffdiff/psamediff)
 
+print "\nEXP 1"
 
-print "\np correct choice SAME={0}, p correct choice DIFF={1}"\
+print "\nMODEL: p correct choice SAME={0}, p correct choice DIFF={1}"\
       .format(model.choose(psamesame,pdiffsame), model.choose(pdiffdiff,psamediff))
 
-# print "SAME\n p same/p diff={0}".format(psamesame/pdiffsame)
-# print "DIFF\n p diff/p dsame={0}".format(pdiffdiff/psamediff)
+print "EXP: p correct choice SAME={0}, p correct choice DIFF={1}"\
+	  .format(data.pe_1s, data.pe_1d)
 
 #now the magic
 
@@ -49,14 +52,19 @@ pdiffplussame=model.p_data_data_binormalized([data.testd],data.data_same_plus)
 psameplusdiff=model.p_data_data_binormalized([data.tests],data.data_diff_plus)
 pdiffplusdiff=model.p_data_data_binormalized([data.testd],data.data_diff_plus)
 
-print "SAME:\n p same={0}, p diff={1}".format(psameplussame,pdiffplussame)
-print "DIFF:\n p same={0}, p diff={1}".format(psameplusdiff,pdiffplusdiff)
+#Detailed print
+#print "SAME:\n p same={0}, p diff={1}".format(psameplussame,pdiffplussame)
+#print "DIFF:\n p same={0}, p diff={1}".format(psameplusdiff,pdiffplusdiff)
 
+print "\nEXP 2"
 
-print "\np correct choice SAME={0}, p correct choice DIFF={1}"\
+print "\nMODEL: p correct choice SAME={0}, p correct choice DIFF={1}"\
       .format(model.choose(psameplussame,pdiffplussame), model.choose(pdiffplusdiff,psameplusdiff))
 
+print "EXP: p correct choice SAME={0}, p correct choice DIFF={1}"\
+	  .format(data.pe_2s, data.pe_2d)
 
 
+print "\n"
 
 
