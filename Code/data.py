@@ -1,8 +1,8 @@
 
 #EXPERIMENTAL DATA
 pe_1s=0.46
-pe_2s=0.78
 pe_1d=0.44
+pe_2s=0.78
 pe_2d=0.5
 
 
