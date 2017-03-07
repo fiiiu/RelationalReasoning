@@ -1,14 +1,15 @@
-#import model_alphabeta as model
+import model_alphabeta_strongsampling as model
 #import model_delta as model
-import model_onepar as model
+#import model_onepar as model
 import data
 
 
-model.alpha=0.2
-#model.beta=0.1
+model.alpha=0.33
+model.beta=0.33
 #model.delta=0.1
-#model.epsilon=0.25
-#model.gamma=0.99
+model.epsilon=0.05
+model.gamma=0.99
+
 model.initialize()
 
 upsamesame=model.p_data_data([data.tests], data.data_same)

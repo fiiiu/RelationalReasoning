@@ -27,7 +27,7 @@ def print_normalized(f, space):
 	for x in space:
 		vals.append(f(x))
 		norm+=vals[-1]
-	print [val/norm for val in vals]
+	print([val/norm for val in vals])
 	return vals 
 
 
@@ -186,23 +186,25 @@ def p_singledata_hypothesis(d,h):
 	#h0,h1,h2=h
 
 	if h[0]==0: #single shape
+		if h[1]==0:
+			return 0
 		if (d[1] and (d[0][0] in hypotheses[h] or d[0][1] in hypotheses[h])) or\
 		   (not d[1] and (d[0][0] not in hypotheses[h] and d[0][1] not in hypotheses[h])):
-			return 1.
+			return 1./h[1]
 		else:
 			return epsilon
 
 	elif h[0]==1: #same double shape
 		if (d[1] and d[0][0]==d[0][1] and d[0][0] in hypotheses[h]) or\
 		   (not d[1] and ((d[0][0]!=d[0][1]) or d[0][0] not in hypotheses[h])):
-		    return 1.
+		    return 1./h[1]
 		else:
 			return epsilon
 
 	elif h[0]==2: #diff double shape
 		if (d[1] and d[0] in hypotheses[h]) or\
 		   (not d[1] and d[0] not in hypotheses[h]):
-			return 1.
+			return 1./h[1]
 		else:
 			return epsilon
 
