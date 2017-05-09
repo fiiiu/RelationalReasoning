@@ -4,7 +4,7 @@ import numpy as np
 from copy import deepcopy
 
 gain=1.8
-n_shapes=6
+n_shapes=4
 shapes=range(n_shapes)
 t_space=[0,1,2]
 #n_comb2=int(scipy.misc.comb(n_shapes,2))
@@ -12,10 +12,10 @@ h_space=[]
 
 #parameters
 initialized=False
-alpha=0.3#0.33
-beta=0.3#0.01
-gamma=0.5
-epsilon=0.01#1e-1
+alpha=0.#0.33
+beta=0.#0.01
+gamma=0.
+epsilon=0.#1e-1
 hypotheses={}
 norms=[0,0,0]
 
@@ -32,16 +32,10 @@ def print_normalized(f, space):
 
 
 ###INFERENCE
-def p_data_data_SLOW(d_new,d_old):#inefficient, could take p_hs out of the loop..
-	p=0
-	for t in t_space:
-		for h in h_space:
-			p+=p_data_hypothesis(d_new,h)*p_data_hypothesis(d_old,h)/p_data(d_old)*\
-				p_hypothesis_theory(h,t)*p_theory(t)
-	return p
 
 
-def p_data_data(d_new,d_old):#optimized, but CHECK! --slightly inneficient calling p_theory too much
+def p_singledata_data_unnormalized(d_new, d_old):#optimized, but CHECK! --slightly inneficient calling p_theory too much
+	d_new = [d_new]
 	p=0
 	for h in h_space:
 		this_factor=p_data_hypothesis(d_new,h)*p_data_hypothesis(d_old,h)
@@ -50,18 +44,24 @@ def p_data_data(d_new,d_old):#optimized, but CHECK! --slightly inneficient calli
 	p/=p_data(d_old)
 	return p
 
+def p_singledata_data(d_new, d_old):
+	active=d_new[1]
+	d_norm=(d_new[0], not active)
+	p_yes = p_singledata_data_unnormalized(d_new, d_old)
+	p_no = p_singledata_data_unnormalized(d_norm, d_old) 
+	return p_yes/(p_yes+p_no)
 
 
-def p_data_data_binormalized(d_new,d_old): #INEFFICENT
+def p_singledata_data_binormalized(d_new,d_old): #INEFFICENT
 	d_plus=[[],0]
-	d_plus[0]=d_new[0][0]
+	d_plus[0]=d_new[0]
 	d_minus=[[],0]
-	d_minus[0]=d_new[0][0]
+	d_minus[0]=d_new[0]
 	d_plus[1]=True
 	d_minus[1]=False
-	p_plus=p_data_data([d_plus],d_old)
-	p_minus=p_data_data([d_minus],d_old)
-	return p_data_data(d_new,d_old)/(p_plus+p_minus)
+	p_plus=p_singledata_data(d_plus,d_old)
+	p_minus=p_singledata_data(d_minus,d_old)
+	return p_singledata_data(d_new,d_old)/(p_plus+p_minus)
 
 
 
@@ -99,7 +99,7 @@ def p_theory_data(t,d):
 ###BLOCKS
 def p_theory(t):
 	if t==0:
-		return 1-alpha-beta
+		return 1.-alpha-beta
 	elif t==1:
 		return alpha
 	elif t==2:
@@ -177,6 +177,8 @@ def build_hypotheses():
 			h2+=1
 
 
+
+
 def p_singledata_hypothesis(d,h):
 	#removing this check for efficiency, 5x gain
 	# if h not in h_space:
@@ -186,29 +188,26 @@ def p_singledata_hypothesis(d,h):
 	#h0,h1,h2=h
 
 	if h[0]==0: #single shape
-		if h[1]==0:
-			return 0
 		if (d[1] and (d[0][0] in hypotheses[h] or d[0][1] in hypotheses[h])) or\
 		   (not d[1] and (d[0][0] not in hypotheses[h] and d[0][1] not in hypotheses[h])):
-			return 1./h[1]
+			return 1.
 		else:
 			return epsilon
 
 	elif h[0]==1: #same double shape
 		if (d[1] and d[0][0]==d[0][1] and d[0][0] in hypotheses[h]) or\
 		   (not d[1] and ((d[0][0]!=d[0][1]) or d[0][0] not in hypotheses[h])):
-		    return 1./h[1]
+		    return 1.
 		else:
 			return epsilon
 
+	#Check for symmetry!
 	elif h[0]==2: #diff double shape
-		if (d[1] and d[0] in hypotheses[h]) or\
-		   (not d[1] and d[0] not in hypotheses[h]):
-			return 1./h[1]
+		if (d[1] and (d[0] in hypotheses[h] or d[0][::-1] in hypotheses[h])) or\
+		   (not d[1] and (d[0] not in hypotheses[h] and d[0][::-1] not in hypotheses[h])):
+			return 1.
 		else:
 			return epsilon
-
-
 
 
 

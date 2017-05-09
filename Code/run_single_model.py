@@ -4,30 +4,30 @@ import model_alphabeta_strongsampling as model
 import data
 
 
-model.alpha=0.33
-model.beta=0.33
+model.alpha=0.25
+model.beta=0.25
 #model.delta=0.1
-model.epsilon=0.05
+model.epsilon=0.1
 model.gamma=0.99
 
 model.initialize()
 
-upsamesame=model.p_data_data([data.tests], data.data_same)
-updiffsame=model.p_data_data([data.testd], data.data_same)
+upsamesame=model.p_singledata_data(data.tests, data.data_same)
+updiffsame=model.p_singledata_data(data.testd, data.data_same)
 
 
-normsamesame=model.p_data_data([data.testsnorm], data.data_same)
-normdiffsame=model.p_data_data([data.testdnorm], data.data_same)
+normsamesame=model.p_singledata_data(data.testsnorm, data.data_same)
+normdiffsame=model.p_singledata_data(data.testdnorm, data.data_same)
 
 psamesame=upsamesame/(upsamesame+normsamesame)
 pdiffsame=updiffsame/(updiffsame+normdiffsame)
 
 
-upsamediff=model.p_data_data([data.tests], data.data_diff)
-updiffdiff=model.p_data_data([data.testd], data.data_diff)
+upsamediff=model.p_singledata_data(data.tests, data.data_diff)
+updiffdiff=model.p_singledata_data(data.testd, data.data_diff)
 
-normsamediff=model.p_data_data([data.testsnorm], data.data_diff)
-normdiffdiff=model.p_data_data([data.testdnorm], data.data_diff)
+normsamediff=model.p_singledata_data(data.testsnorm, data.data_diff)
+normdiffdiff=model.p_singledata_data(data.testdnorm, data.data_diff)
 
 psamediff=upsamediff/(upsamediff+normsamediff)
 pdiffdiff=updiffdiff/(updiffdiff+normdiffdiff)
@@ -47,11 +47,11 @@ print "EXP: p correct choice SAME={0}, p correct choice DIFF={1}"\
 
 #now the magic
 
-psameplussame=model.p_data_data_binormalized([data.tests],data.data_same_plus)
-pdiffplussame=model.p_data_data_binormalized([data.testd],data.data_same_plus)
+psameplussame=model.p_singledata_data_binormalized(data.tests,data.data_same_plus)
+pdiffplussame=model.p_singledata_data_binormalized(data.testd,data.data_same_plus)
 
-psameplusdiff=model.p_data_data_binormalized([data.tests],data.data_diff_plus)
-pdiffplusdiff=model.p_data_data_binormalized([data.testd],data.data_diff_plus)
+psameplusdiff=model.p_singledata_data_binormalized(data.tests,data.data_diff_plus)
+pdiffplusdiff=model.p_singledata_data_binormalized(data.testd,data.data_diff_plus)
 
 #Detailed print
 #print "SAME:\n p same={0}, p diff={1}".format(psameplussame,pdiffplussame)

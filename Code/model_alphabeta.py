@@ -4,7 +4,7 @@ import numpy as np
 from copy import deepcopy
 
 gain=1.8
-n_shapes=6
+n_shapes=4
 shapes=range(n_shapes)
 t_space=[0,1,2]
 #n_comb2=int(scipy.misc.comb(n_shapes,2))
@@ -27,7 +27,7 @@ def print_normalized(f, space):
 	for x in space:
 		vals.append(f(x))
 		norm+=vals[-1]
-	print [val/norm for val in vals]
+	print([val/norm for val in vals])
 	return vals 
 
 
@@ -59,16 +59,16 @@ def p_singledata_data(d_new, d_old):
 	return p_yes/(p_yes+p_no)
 
 
-# def p_data_data_binormalized(d_new,d_old): #INEFFICENT
-# 	d_plus=[[],0]
-# 	d_plus[0]=d_new[0][0]
-# 	d_minus=[[],0]
-# 	d_minus[0]=d_new[0][0]
-# 	d_plus[1]=True
-# 	d_minus[1]=False
-# 	p_plus=p_data_data([d_plus],d_old)
-# 	p_minus=p_data_data([d_minus],d_old)
-# 	return p_data_data(d_new,d_old)/(p_plus+p_minus)
+def p_singledata_data_binormalized(d_new,d_old): #INEFFICENT
+	d_plus=[[],0]
+	d_plus[0]=d_new[0]
+	d_minus=[[],0]
+	d_minus[0]=d_new[0]
+	d_plus[1]=True
+	d_minus[1]=False
+	p_plus=p_singledata_data(d_plus,d_old)
+	p_minus=p_singledata_data(d_minus,d_old)
+	return p_singledata_data(d_new,d_old)/(p_plus+p_minus)
 
 
 
@@ -206,9 +206,10 @@ def p_singledata_hypothesis(d,h):
 		else:
 			return epsilon
 
+	#Check for symmetry!
 	elif h[0]==2: #diff double shape
-		if (d[1] and d[0] in hypotheses[h]) or\
-		   (not d[1] and d[0] not in hypotheses[h]):
+		if (d[1] and (d[0] in hypotheses[h] or d[0][::-1] in hypotheses[h])) or\
+		   (not d[1] and (d[0] not in hypotheses[h] and d[0][::-1] not in hypotheses[h])):
 			return 1.
 		else:
 			return epsilon
