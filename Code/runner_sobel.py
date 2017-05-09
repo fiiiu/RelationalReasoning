@@ -53,8 +53,8 @@ def model_error(parameters):
 #print(run1(mab,(0.25, 0.25)))
 #print(run1(mss,(0.25, 0.25)))
 
-alphabetas=[(0.01,0.97)]#,(0.25, 0.25),(0.5, 0.5)]#, (0.01, 0.25), (0.25, 0.01), (0.25, 0.25), (0.5, 0.5)]
+alphabetas=[(0.01,0.01),(0.25, 0.25),(0.5, 0.5)]#, (0.01, 0.25), (0.25, 0.01), (0.25, 0.25), (0.5, 0.5)]
 for ab in alphabetas:
-	print(run2(mab,ab))
-	print(run2(mss,ab))
+	print(run1(mab,ab))
+	print(run1(mss,ab))
 
