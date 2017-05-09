@@ -99,7 +99,7 @@ def p_theory_data(t,d):
 ###BLOCKS
 def p_theory(t):
 	if t==0:
-		return 1-alpha-beta
+		return 1.-alpha-beta
 	elif t==1:
 		return alpha
 	elif t==2:
