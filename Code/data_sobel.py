@@ -44,18 +44,18 @@ e_4254_Correct=.75
 
 # Unique Condition
 # Evidence
-train_Unique=[]
-# train_Unique=[None]*3
-# train_Unique[0]=[(0,0),True]
-# train_Unique[1]=[(1,1),True]
-# train_Unique[2]=[(2,2),True]
+# train_Unique=[]
+train_Unique=[None]*3
+train_Unique[0]=[(0,0),True]
+train_Unique[1]=[(1,1),True]
+train_Unique[2]=[(2,2),True]
 #Test
 test_Unique=[None]*2
-#test_Unique[0]=[(3,3),True]
-#test_Unique[1]=[(2,1),True]
+test_Unique[0]=[(3,3),True]
+test_Unique[1]=[(2,1),True]
 
 #test_Unique[0]=[(0,0),True]
-test_Unique[1]=[(2,1),True]
-test_Unique[0]=[(1,2),True]
+#test_Unique[1]=[(2,1),True]
+#test_Unique[0]=[(1,2),True]
 
 

@@ -177,8 +177,6 @@ def build_hypotheses():
 			h2+=1
 
 
-
-
 def p_singledata_hypothesis(d,h):
 	#removing this check for efficiency, 5x gain
 	# if h not in h_space:
@@ -188,27 +186,28 @@ def p_singledata_hypothesis(d,h):
 	#h0,h1,h2=h
 
 	if h[0]==0: #single shape
+		if h[1]==0:
+			return 0
 		if (d[1] and (d[0][0] in hypotheses[h] or d[0][1] in hypotheses[h])) or\
 		   (not d[1] and (d[0][0] not in hypotheses[h] and d[0][1] not in hypotheses[h])):
-			return 1.
+			return 1./h[1]
 		else:
 			return epsilon
 
 	elif h[0]==1: #same double shape
 		if (d[1] and d[0][0]==d[0][1] and d[0][0] in hypotheses[h]) or\
 		   (not d[1] and ((d[0][0]!=d[0][1]) or d[0][0] not in hypotheses[h])):
-		    return 1.
+		    return 1./h[1]
 		else:
 			return epsilon
-
+	
 	#Check for symmetry!
 	elif h[0]==2: #diff double shape
 		if (d[1] and (d[0] in hypotheses[h] or d[0][::-1] in hypotheses[h])) or\
 		   (not d[1] and (d[0] not in hypotheses[h] and d[0][::-1] not in hypotheses[h])):
-			return 1.
+			return 1./h[1]
 		else:
 			return epsilon
-
 
 
 

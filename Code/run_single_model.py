@@ -1,14 +1,15 @@
-import model_alphabeta_strongsampling as model
+import model_alphabeta as model
+#import model_alphabeta_strongsampling as model
 #import model_delta as model
 #import model_onepar as model
 import data
 
 
-model.alpha=0.25
-model.beta=0.25
+model.alpha=0.1
+model.beta=0.1
 #model.delta=0.1
-model.epsilon=0.1
-model.gamma=0.99
+model.epsilon=0.05
+model.gamma=0.5
 
 model.initialize()
 
