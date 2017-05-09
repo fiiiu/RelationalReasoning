@@ -2,8 +2,8 @@
 # Conditions: NegPos, PosOnly
 
 # Experimental Data
-p_NegPos=[.77, .23]
-p_PosOnly=[.48, .52]
+e_NegPos_Correct=.77
+e_PosOnly_Correct=.48
 
 # Stimuli
 # NegPos Condition
