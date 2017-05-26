@@ -4,7 +4,7 @@ import numpy as np
 from copy import deepcopy
 
 gain=1.8
-n_shapes=4
+n_shapes=6
 shapes=range(n_shapes)
 t_space=[0,1,2]
 #n_comb2=int(scipy.misc.comb(n_shapes,2))
@@ -28,7 +28,7 @@ def print_normalized(f, space):
 		vals.append(f(x))
 		norm+=vals[-1]
 	print([val/norm for val in vals])
-	return vals 
+	return vals
 
 
 ###INFERENCE
@@ -55,7 +55,7 @@ def p_singledata_data(d_new, d_old):
 	active=d_new[1]
 	d_norm=(d_new[0], not active)
 	p_yes = p_singledata_data_unnormalized(d_new, d_old)
-	p_no = p_singledata_data_unnormalized(d_norm, d_old) 
+	p_no = p_singledata_data_unnormalized(d_norm, d_old)
 	return p_yes/(p_yes+p_no)
 
 
@@ -80,7 +80,7 @@ def p_data(d):
 			if h[0]!=t: #efficency, x2
 				continue
 			p+=p_data_hypothesis(d,h)*p_hypothesis_theory(h,t)*this_factor
-	return p 
+	return p
 
 # def choose(p1,p2):
 # 	return 1./(1+np.exp(-gain*(p1-p2)))
@@ -117,7 +117,7 @@ def unnormalized_p_hypothesis_theory(h,t):
 	#removing check for efficiency
 	#if h not in h_space:
 	#	print 'invalid h!'
-	#	return 
+	#	return
 
 	h0,h1,h2=h
 	if t==h0:
@@ -130,7 +130,7 @@ def p_hypothesis_theory(h,t):
 	#removing this check for efficiency, 10x gain
 	# if h not in h_space:
 	# 	print 'invalid h!'
-	# 	return 
+	# 	return
 
 	h0,h1,h2=h
 	if t==h0:
@@ -213,11 +213,3 @@ def p_singledata_hypothesis(d,h):
 			return 1.
 		else:
 			return epsilon
-
-
-
-
-
-
-
-

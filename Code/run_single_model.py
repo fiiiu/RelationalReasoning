@@ -5,11 +5,11 @@ import model_alphabeta as model
 import data
 
 
-model.alpha=0.1
-model.beta=0.1
+model.alpha=0.01
+model.beta=0.01
 #model.delta=0.1
-model.epsilon=0.05
-model.gamma=0.5
+model.epsilon=0.1
+model.gamma=0.99
 
 model.initialize()
 
@@ -68,5 +68,3 @@ print "EXP: p correct choice SAME={0}, p correct choice DIFF={1}"\
 
 
 print "\n"
-
-
